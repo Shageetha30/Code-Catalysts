@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+backend/venv/
+
+# Build artifacts
+frontend/dist/
+*.pyc
+__pycache__/
+.pytest_cache/
+
+# Databases
+backend/*.db
+
+# OS files
+.DS_Store
