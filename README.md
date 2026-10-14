@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ColdTrace — Intelligent Vaccine Cold-Chain Monitoring
 
 > **Notice:** *Hackathon prototype — simulated data — not for clinical use.*
@@ -262,3 +263,7 @@ git push -u origin main
 ---
 
 *ColdTrace Hackathon Project — Built with FastAPI, scikit-learn, React, TypeScript, and Recharts.*
+=======
+# Code-Catalysts
+ColdTrace is a vaccine carrier temperature logger that tracks real-time temperatures and alerts logistics staff and nurses during cold-chain transit to prevent vaccine spoilage.
+>>>>>>> 5c65fb82f88b90de035a82708f540d500162f703
