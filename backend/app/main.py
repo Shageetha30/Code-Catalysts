@@ -33,11 +33,25 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# Enable CORS for React frontend
+import os
+
+# Enable CORS for React frontend (supports production domains via CORS_ORIGINS or FRONTEND_URL env vars)
+cors_env = os.getenv("CORS_ORIGINS") or os.getenv("FRONTEND_URL") or "*"
+if cors_env.strip() == "*":
+    allowed_origins = ["*"]
+    allow_creds = False
+else:
+    allowed_origins = [origin.strip() for origin in cors_env.split(",") if origin.strip()]
+    # Always permit local development origins for ease of testing
+    for dev_origin in ["http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:5173", "http://127.0.0.1:5173"]:
+        if dev_origin not in allowed_origins:
+            allowed_origins.append(dev_origin)
+    allow_creds = True
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=allowed_origins,
+    allow_credentials=allow_creds,
     allow_methods=["*"],
     allow_headers=["*"],
 )

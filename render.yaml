@@ -1,0 +1,52 @@
+services:
+  # =========================================================================
+  # 1. ColdTrace Backend API (FastAPI + scikit-learn + SQLAlchemy)
+  # =========================================================================
+  - type: web
+    name: coldtrace-api
+    env: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: ENVIRONMENT
+        value: production
+      - key: CORS_ORIGINS
+        value: "*"
+      # To enable permanent persistence, link a Render PostgreSQL database:
+      # - key: DATABASE_URL
+      #   fromDatabase:
+      #     name: coldtrace-db
+      #     property: connectionString
+
+  # =========================================================================
+  # 2. ColdTrace Frontend (React + TypeScript + Vite + Tailwind)
+  # =========================================================================
+  - type: web
+    name: coldtrace-ui
+    env: static
+    plan: free
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        # Replace with your actual Render API service URL after deploying backend
+        value: https://coldtrace-api.onrender.com
+
+# =========================================================================
+# (Optional) Render Managed PostgreSQL Database for Permanent Persistence
+# =========================================================================
+# databases:
+#   - name: coldtrace-db
+#     plan: free
+#     databaseName: coldtrace
+#     user: coldtrace_user

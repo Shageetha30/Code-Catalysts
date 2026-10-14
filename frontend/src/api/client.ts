@@ -12,7 +12,13 @@ import {
   EvaluationMetrics
 } from '../types';
 
-const API_BASE = '/api';
+// In production or when VITE_API_URL is configured, use the remote backend URL.
+// When unset (local development), fallback to '/api' which leverages Vite's dev proxy.
+const rawApiUrl = (import.meta.env.VITE_API_URL || '').trim();
+const sanitizedBase = rawApiUrl.replace(/\/+$/, '');
+export const API_BASE = sanitizedBase
+  ? (sanitizedBase.endsWith('/api') ? sanitizedBase : `${sanitizedBase}/api`)
+  : '/api';
 
 async function request<T>(endpoint: string, options?: RequestInit): Promise<T> {
   const url = `${API_BASE}${endpoint}`;

@@ -10,7 +10,7 @@ import { AlertsPage } from './pages/AlertsPage';
 import { TraceabilityPage } from './pages/TraceabilityPage';
 import { BatchReviewPage } from './pages/BatchReviewPage';
 import { MLModelLabPage } from './pages/MLModelLabPage';
-import { api } from './api/client';
+import { api, API_BASE } from './api/client';
 import { DashboardStats, ShipmentSummary, Reading, Incident, SimulatorStatus } from './types';
 import { Loader2, AlertCircle } from 'lucide-react';
 
@@ -99,7 +99,7 @@ export const App: React.FC = () => {
                 <strong className="font-semibold">Backend Connection Issue:</strong>
                 <p className="text-xs text-rose-700 mt-0.5">{apiError}</p>
                 <p className="text-[11px] text-rose-600 mt-1">
-                  Ensure the FastAPI backend is running on <code>http://localhost:8000</code>.
+                  Target API: <code className="bg-rose-100 px-1.5 py-0.5 rounded font-mono text-rose-800">{API_BASE}</code>. Ensure your FastAPI backend service is running and CORS is configured to allow this frontend origin.
                 </p>
               </div>
             </div>
